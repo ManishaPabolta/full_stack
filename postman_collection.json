@@ -1,0 +1,296 @@
+{
+  "info": {
+    "name": "TaskApp API",
+    "description": "Full-Stack Task Management Application API",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "signup"]
+            }
+          },
+          "response": {
+            "status": "Created",
+            "code": 201,
+            "body": "{\n  \"success\": true,\n  \"message\": \"User registered successfully\",\n  \"data\": {\n    \"user\": {\n      \"_id\": \"507f1f77bcf86cd799439011\",\n      \"name\": \"John Doe\",\n      \"email\": \"john@example.com\",\n      \"profile\": {}\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n  }\n}"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Login successful\",\n  \"data\": {\n    \"user\": {...},\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n  }\n}"
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Profile fetched successfully\",\n  \"data\": {\n    \"user\": {\n      \"_id\": \"507f1f77bcf86cd799439011\",\n      \"name\": \"John Doe\",\n      \"email\": \"john@example.com\",\n      \"profile\": {}\n    }\n  }\n}"
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"profile\": {\n    \"bio\": \"Software Engineer\",\n    \"phone\": \"+1234567890\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Profile updated successfully\",\n  \"data\": {\n    \"user\": {...}\n  }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Complete project documentation\",\n  \"description\": \"Write comprehensive documentation for the API\",\n  \"priority\": \"high\",\n  \"status\": \"in-progress\",\n  \"dueDate\": \"2024-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": {
+            "status": "Created",
+            "code": 201,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Task created successfully\",\n  \"data\": {\n    \"task\": {\n      \"_id\": \"507f1f77bcf86cd799439012\",\n      \"title\": \"Complete project documentation\",\n      \"description\": \"Write comprehensive documentation for the API\",\n      \"priority\": \"high\",\n      \"status\": \"in-progress\",\n      \"dueDate\": \"2024-12-31\",\n      \"userId\": \"507f1f77bcf86cd799439011\",\n      \"createdAt\": \"2024-01-01T10:00:00Z\",\n      \"updatedAt\": \"2024-01-01T10:00:00Z\"\n    }\n  }\n}"
+          }
+        },
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks?status=in-progress&priority=high&search=documentation",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "in-progress",
+                  "disabled": true
+                },
+                {
+                  "key": "priority",
+                  "value": "high",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "documentation",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Tasks fetched successfully\",\n  \"data\": {\n    \"count\": 1,\n    \"tasks\": [...]\n  }\n}"
+          }
+        },
+        {
+          "name": "Get Task by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks/507f1f77bcf86cd799439012",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "507f1f77bcf86cd799439012"]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Task fetched successfully\",\n  \"data\": {\n    \"task\": {...}\n  }\n}"
+          }
+        },
+        {
+          "name": "Update Task",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated task title\",\n  \"status\": \"completed\",\n  \"priority\": \"low\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/507f1f77bcf86cd799439012",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "507f1f77bcf86cd799439012"]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Task updated successfully\",\n  \"data\": {\n    \"task\": {...}\n  }\n}"
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/tasks/507f1f77bcf86cd799439012",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "507f1f77bcf86cd799439012"]
+            }
+          },
+          "response": {
+            "status": "OK",
+            "code": 200,
+            "body": "{\n  \"success\": true,\n  \"message\": \"Task deleted successfully\",\n  \"data\": {\n    \"deletedId\": \"507f1f77bcf86cd799439012\"\n  }\n}"
+          }
+        }
+      ]
+    }
+  ]
+}
