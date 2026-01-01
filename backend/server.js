@@ -13,7 +13,9 @@ dotenv.config();
 const app = express();
 
 
-connectDB();
+connectDB().catch((err) => {
+  console.warn('MongoDB connection failed (continuing without DB):', err.message || err);
+});
 
 
 app.use(cors());
